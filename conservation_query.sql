@@ -7,17 +7,22 @@ CREATE Table rangers (
 );
 
 INSERT INTO
-    rangers (ranger_id, name, region)
+    rangers (name, region)
 VALUES (
-        1,
+       
         'Alice Green',
         'Northern Hills'
     ),
-    (2, 'Bob White', 'River Delta'),
+    ('Bob White', 'River Delta'),
     (
-        3,
+      
         'Carol King',
         'Mountain Range'
+    ),
+        (
+      
+        'Rubel Rana',
+        'Road Area'
     );
 
 CREATE table species (
@@ -116,27 +121,23 @@ VALUES (
         NULL
     );
 
-SELECT * FROM rangers;
 --task 1 : 1️⃣ Register a new ranger with provided data with name = 'Derek Fox' and region = 'Coastal Plains'
-
 INSERT INTO
     rangers (name, region)
 VALUES ('Derek Fox', 'Coastal Plains');
 
---task 2️⃣ Count unique species ever sighted.
-SELECT * FROM species;
-
+--2️⃣ Count unique species ever sighted.
 SELECT count(*) as unique_species_count
 FROM species
 WHERE
     conservation_status = 'Endangered';
 
+
 --3️⃣ Find all sightings where the location includes "Pass". ok
 SELECT * FROM sightings WHERE location LIKE '%Pass';
 
---5️⃣ List species that have never been sighted.
--- | common_name      |
--- |------------------|
+--5️⃣ List species that have never been sighted. 
+--| common_name      
 -- | Asiatic Elephant |
 SELECT common_name
 from species
@@ -150,14 +151,17 @@ WHERE
 
 SELECT sighting_id from sightings WHERE notes IS NULL
 
---Show the most recent 2 sightings.
-SELECT * from sightings ORDER BY sighting_time DESC LIMIT 2;
+--6️⃣ Show the most recent 2 sightings. ok
+SELECT species.common_name, sightings.sighting_time, rangers.name
+FROM sightings
+INNER  JOIN species  ON species.species_id = sightings.species_id
+INNER  JOIN rangers  ON rangers.ranger_id = sightings.ranger_id
+ORDER BY sightings.sighting_time DESC LIMIT 2;
 
 --7️⃣ Update all species discovered before year 1800 to have status 'Historic'.
 -- AffectedRows : 3
 --(No output needed - this is an UPDATE operation)
 ALTER TABLE species ADD status VARCHAR(50);
-
 UPDATE species
 SET
     status = 'Historic'
@@ -186,7 +190,8 @@ FROM sightings;
 
 
 
-SELECT sighting_id, TO_CHAR(sighting_time, 'HH24:MI') as time from sightings;
+
+
 SELECT 
     sighting_id, 
     TO_CHAR(sighting_time, 'HH12:MI AM') AS time 
@@ -194,3 +199,12 @@ FROM
     sightings;
 
 -- 9️⃣ Delete rangers who have never sighted any species
+-- AffectedRows : 1
+-- (No output needed - this is a DELETE operation)
+DELETE FROM rangers WHERE rangers.ranger_id IN (
+ SELECT rangers.ranger_id FROM rangers
+ LEFT JOIN sightings 
+ ON rangers.ranger_id = sightings.ranger_id
+ WHERE  sightings.ranger_id IS NULL
+); 
+ SELECT * FROM rangers;
