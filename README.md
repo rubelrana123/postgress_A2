@@ -22,10 +22,6 @@ PostgreSQL (পোস্টগ্রেস) একটি শক্তিশা�
 <h3>  <code>AVG()</code> গড় কত?</h3>
 <pre><code>SELECT AVG(price) FROM orders;
 </code></pre>
-<p><strong>প্রশ্ন:</strong> মোট কয়জন স্টুডেন্ট রেজিস্ট্রেশন করেছে।<br>
-<strong>উত্তর:</strong></p>
-<pre><code>SELECT COUNT(*) FROM students;
-</code></pre>
 
 
 <h3>3️⃣  <strong>Explain the Primary Key and Foreign Key concepts in PostgreSQL.</strong></h3>
