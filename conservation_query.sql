@@ -121,12 +121,12 @@ VALUES (
         NULL
     );
 
---task 1 : 1️⃣ Register a new ranger with provided data with name = 'Derek Fox' and region = 'Coastal Plains'
+--1️⃣ Register a new ranger with provided data with name = 'Derek Fox' and region = 'Coastal Plains' ok
 INSERT INTO
     rangers (name, region)
 VALUES ('Derek Fox', 'Coastal Plains');
 
---2️⃣ Count unique species ever sighted.
+--2️⃣ Count unique species ever sighted. ok
 SELECT count(*) as unique_species_count
 FROM species
 WHERE
