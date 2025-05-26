@@ -46,19 +46,19 @@ PostgreSQL (পোস্টগ্রেস) একটি শক্তিশা�
 </ul>
 
 <pre><code>CREATE TABLE users (
-    name VARCHAR(25),     -- সর্বোচ্চ ২৫ ক্যারেক্টার
-    bio VARCHAR           -- আনলিমিটেড ক্যারেক্টার
+    name VARCHAR(25),     -- maximum 25 character
+    details VARCHAR       -- unlimited character
 );
 </code></pre>
 
 <p><strong>CHAR (Character):</strong></p>
 <ul>
-<li>এটি ফিক্সড-লেংথ ডেটা রাখে।</li>
+<li>এটি fixed length ডেটা রাখে।</li>
 <li>নির্দিষ্ট দৈর্ঘ্যের চেয়ে কম ডেটা হলে, অতিরিক্ত স্পেস দিয়ে পূরণ করে।</li>
 </ul>
 
 <pre><code>CREATE TABLE users (
-    code CHAR(5)         -- ঠিক ৫ ক্যারেক্টার
+    code CHAR(5)         -- must be 5 character
 );
 </code></pre>
 
@@ -79,8 +79,24 @@ FROM rangers r
 JOIN sightings s ON r.ranger_id = s.ranger_id;
 </code></pre>
 
-5. Explain the purpose of the `WHERE` clause in a `SELECT` statement.
-6. What are the `LIMIT` and `OFFSET` clauses used for?
+<h3>6️⃣ <strong>What are the LIMIT and OFFSET clauses used for?</strong></h3>
+<p><strong>উত্তর:</strong><br>
+<strong>LIMIT:</strong> রো এর লিমিট। মানে কতটা রো আমরা দেখতে চাচ্ছি।<br>
+<strong>OFFSET:</strong> রো গুলি কোথা থেকে নির্বাচন করে ফেরত পাঠানো শুরু করতে হবে তা নির্দিষ্ট করতে ব্যবহৃত হয়।
+</p>
+
+<p><strong>Example for pagination:</strong></p>
+<pre><code>// limit => limitation of row \\ skip or starting row
+SELECT * FROM students
+LIMIT 5 OFFSET 5 * 0;  -- (5 * 0) = 0 → firstly 5 row
+
+SELECT * FROM students
+LIMIT 5 OFFSET 5 * 1;  -- (5 * 1) = 5 → next 5 row
+
+SELECT * FROM students
+LIMIT 5 OFFSET 5 * 2;  -- (5 * 2) = 10 → next 5 row
+</code></pre>
+
 Ans : 
 7. How can you modify data using `UPDATE` statements?
 8. What is the significance of the `JOIN` operation, and how does it work in PostgreSQL?
