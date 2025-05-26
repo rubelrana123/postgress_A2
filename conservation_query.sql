@@ -139,68 +139,45 @@ SELECT * FROM sightings WHERE location LIKE '%Pass';
 --5️⃣ List species that have never been sighted. 
 --| common_name      
 -- | Asiatic Elephant |
-SELECT common_name
-from species
-WHERE
-    species.species_id = (
-        SELECT sighting_id
-        from sightings
-        WHERE
-            notes IS NULL
-    );
-
-SELECT sighting_id from sightings WHERE notes IS NULL
-
+select common_name   FROM species
+LEFT JOIN sightings USING(species_id)
+WHERE sightings.species_id IS NULL;
 --6️⃣ Show the most recent 2 sightings. ok
-SELECT species.common_name, sightings.sighting_time, rangers.name
-FROM sightings
-INNER  JOIN species  ON species.species_id = sightings.species_id
-INNER  JOIN rangers  ON rangers.ranger_id = sightings.ranger_id
-ORDER BY sightings.sighting_time DESC LIMIT 2;
+SELECT common_name,sighting_time,name FROM sightings
+JOIN species USING(species_id)
+JOIN rangers USING (ranger_id)
+ORDER BY(sighting_time) DESC
+LIMIT 2;
 
 --7️⃣ Update all species discovered before year 1800 to have status 'Historic'.
 -- AffectedRows : 3
 --(No output needed - this is an UPDATE operation)
 ALTER TABLE species ADD status VARCHAR(50);
+--? Problem 7
 UPDATE species
 SET
-    status = 'Historic'
+    conservation_status = 'Historic'
 WHERE
     extract(
-        year
-        from discovery_date
-    ) <= 1800;
+        YEAR
+        FROM discovery_date
+    ) < 1800;
 
-ALTER TABLE species DROP COLUMN status;
+    SELECT * from species;
 
-SELECT * from species;
+
+
 
 --8️⃣ Label each sighting's time of day as 'Morning', 'Afternoon', or 'Evening'.
--- Morning: before 12 PM
--- Afternoon: 12 PM–5 PM
--- Evening: after 5 PM
-SELECT
-    sighting_id,
+SELECT sighting_id,
     CASE
-        WHEN TO_CHAR(sighting_time, 'HH24:MI') BETWEEN '06:01' AND '12:00' THEN 'Morning'
-        WHEN TO_CHAR(sighting_time, 'HH24:MI') BETWEEN '12:01' AND '17:00' THEN 'Afternoon'
+        WHEN EXTRACT(HOUR FROM sighting_time) < 12 THEN 'Morning'
+        WHEN EXTRACT(HOUR FROM sighting_time) BETWEEN 12 AND 17 THEN 'Afternoon'
         ELSE 'Evening'
     END AS time_of_day
-FROM sightings;
-
-
-
-
-
-SELECT 
-    sighting_id, 
-    TO_CHAR(sighting_time, 'HH12:MI AM') AS time 
-FROM 
-    sightings;
-
+FROM sightings
+ORDER BY sighting_id;
 -- 9️⃣ Delete rangers who have never sighted any species
--- AffectedRows : 1
--- (No output needed - this is a DELETE operation)
 DELETE FROM rangers WHERE rangers.ranger_id IN (
  SELECT rangers.ranger_id FROM rangers
  LEFT JOIN sightings 

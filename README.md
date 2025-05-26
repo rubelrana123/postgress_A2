@@ -62,24 +62,7 @@ PostgreSQL (পোস্টগ্রেস) একটি শক্তিশা�
 );
 </code></pre>
 
-<h3>5️⃣ <strong>What is the use of JOIN in PostgreSQL?</strong></h3>
-<p><strong>উত্তর:</strong><br>
-JOIN কমান্ড ব্যবহার করে একাধিক টেবিল থেকে সম্পর্কযুক্ত ডেটা একত্রে দেখানো যায়।</p>
-
-<p><strong>JOIN এর ধরন সমূহ:</strong></p>
-<ul>
-<li><code>INNER JOIN</code> → শুধুমাত্র ম্যাচিং রেকর্ড।</li>
-<li><code>LEFT JOIN</code> → বাঁ দিকের সব রেকর্ড এবং ডান দিকের ম্যাচিং রেকর্ড।</li>
-<li><code>RIGHT JOIN</code> → ডান দিকের সব রেকর্ড এবং বাঁ দিকের ম্যাচিং রেকর্ড।</li>
-<li><code>FULL JOIN</code> → দুই দিকের সব রেকর্ড।</li>
-</ul>
-
-<pre><code>SELECT r.name, s.species
-FROM rangers r
-JOIN sightings s ON r.ranger_id = s.ranger_id;
-</code></pre>
-
-<h3>6️⃣ <strong>What are the LIMIT and OFFSET clauses used for?</strong></h3>
+<h3>5️⃣ <strong>What are the LIMIT and OFFSET clauses used for?</strong></h3>
 <p><strong>উত্তর:</strong><br>
 <strong>LIMIT:</strong> রো এর লিমিট। মানে কতটা রো আমরা দেখতে চাচ্ছি।<br>
 <strong>OFFSET:</strong> রো গুলি কোথা থেকে নির্বাচন করে ফেরত পাঠানো শুরু করতে হবে তা নির্দিষ্ট করতে ব্যবহৃত হয়।
@@ -96,9 +79,3 @@ LIMIT 5 OFFSET 5 * 1;  -- (5 * 1) = 5 → next 5 row
 SELECT * FROM students
 LIMIT 5 OFFSET 5 * 2;  -- (5 * 2) = 10 → next 5 row
 </code></pre>
-
-Ans : 
-7. How can you modify data using `UPDATE` statements?
-8. What is the significance of the `JOIN` operation, and how does it work in PostgreSQL?
-9. Explain the `GROUP BY` clause and its role in aggregation operations.
-10. How can you calculate aggregate functions like `COUNT()`, `SUM()`, and `AVG()` in PostgreSQL?
